@@ -1,4 +1,4 @@
-pipeline {
+pipeline { 
     agent any
      options {
         // This is required if you want to clean before build
