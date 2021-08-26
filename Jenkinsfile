@@ -1,7 +1,7 @@
 pipeline {
     agent any
      options {
-        // This is required if you want to clean before build
+        //   clean before build
         skipDefaultCheckout(true)
     }
     tools {
@@ -14,7 +14,7 @@ pipeline {
             steps {
                 // Get some code from a GitHub repository
                 git branch: 'main', url: 'https://github.com/pkhisti007/spring-petclinic.git'
-                // To run Maven on a Windows agent 
+                //   run Maven on a Windows agent and build the package
                   bat "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
@@ -22,6 +22,10 @@ pipeline {
             steps {
                 script
                 {
+                    //read pom.xml and dynamically get the jar file version number
+                    // and upload the artifact to nexus repository
+                    // A webhook is configured on the github account which triggers the build on Jenkins
+                    
                 def mavenPom = readMavenPom file: 'pom.xml'
                    nexusArtifactUploader artifacts: [
                        [
